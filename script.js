@@ -43,12 +43,16 @@ let operator = "";
 let secondNumber = "";
 let shouldClearDisplay = false;
 
+function formatResult(result) {
+  return String(result).length > 15 ? Number(result.toFixed(13)) : result;
+}
+
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     const buttonText = event.target.textContent;
     if (display.textContent.length >= 15) return;
 
-    if (buttonText >= "0" && buttonText <= "9") {
+    if (/^\d$/.test(buttonText)) {
       if (shouldClearDisplay === true) {
         display.textContent = buttonText;
         shouldClearDisplay = false;
@@ -80,10 +84,7 @@ buttons.forEach((button) => {
         }
 
         if (typeof intermediateResult === "number") {
-          let resultString = String(intermediateResult);
-          if (resultString.length > 15) {
-            intermediateResult = Number(intermediateResult.toFixed(13));
-          }
+          intermediateResult = formatResult(intermediateResult);
         }
         firstNumber = intermediateResult;
         display.textContent = intermediateResult;
@@ -98,11 +99,8 @@ buttons.forEach((button) => {
 
       let result = operate(operator, firstNumber, Number(secondNumber));
       if (typeof result === "number") {
-        const resultString = String(result);
         shouldClearDisplay = true;
-        if (resultString.length > 15) {
-          result = result.toFixed(13);
-        }
+        result = formatResult(result);
       }
       display.textContent = String(result);
       firstNumber = result;
