@@ -15,6 +15,8 @@ function divide(a, b) {
 }
 
 function operate(operator, a, b) {
+  a = Number(a);
+  b = Number(b);
   if (operator === "/" && b === 0) return "Nice try, genius";
 
   switch (operator) {
@@ -30,7 +32,7 @@ function operate(operator, a, b) {
     case "/":
       return divide(a, b);
   }
-  return console.log("ERORR");
+  return "ERROR";
 }
 
 const display = document.querySelector(".display");
@@ -39,24 +41,57 @@ const buttons = document.querySelectorAll(".btn");
 let firstNumber = "";
 let operator = "";
 let secondNumber = "";
+let shouldClearDisplay = false;
 
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     const buttonText = event.target.textContent;
     if (display.textContent.length >= 15) return;
 
-    if (event.target.textContent >= "0" && event.target.textContent <= "9") {
+    if (buttonText >= "0" && buttonText <= "9") {
+      if (shouldClearDisplay === true) {
+        display.textContent = buttonText;
+        shouldClearDisplay = false;
+      } else {
+        display.textContent += buttonText;
+      }
+
       if (operator === "") {
         firstNumber += buttonText;
       } else {
         secondNumber += buttonText;
       }
-      display.textContent =
-        (display.textContent === "0" ? "" : display.textContent) + buttonText;
     } else if (/\+|\-|\*|\//.test(buttonText)) {
-      firstNumber = Number(display.textContent);
+      if (operator !== "" && display.textContent !== "") {
+        const currentSecondNumber = Number(display.textContent);
+        let intermediateResult = operate(
+          operator,
+          firstNumber,
+          currentSecondNumber
+        );
+
+        if (typeof intermediateResult === "string") {
+          display.textContent = intermediateResult;
+          firstNumber = "";
+          secondNumber = "";
+          operator = "";
+          shouldClearDisplay = true;
+          return;
+        }
+
+        if (typeof intermediateResult === "number") {
+          let resultString = String(intermediateResult);
+          if (resultString.length > 15) {
+            intermediateResult = Number(intermediateResult.toFixed(13));
+          }
+        }
+        firstNumber = intermediateResult;
+        display.textContent = intermediateResult;
+        secondNumber = "";
+      }
+
       operator = buttonText;
-      display.textContent = "";
+      shouldClearDisplay = true;
       secondNumber = "";
     } else if (buttonText === "=") {
       secondNumber = display.textContent;
@@ -64,11 +99,13 @@ buttons.forEach((button) => {
       let result = operate(operator, firstNumber, Number(secondNumber));
       if (typeof result === "number") {
         const resultString = String(result);
+        shouldClearDisplay = true;
         if (resultString.length > 15) {
           result = result.toFixed(13);
         }
       }
       display.textContent = String(result);
+      firstNumber = result;
       operator = "";
       secondNumber = "";
     }
