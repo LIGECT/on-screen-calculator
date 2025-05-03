@@ -30,3 +30,16 @@ function operate(operator, a, b) {
   }
   return console.log("ERORR");
 }
+
+const display = document.querySelector(".display");
+const buttons = document.querySelectorAll(".btn");
+
+buttons.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    event.target.textContent;
+    if (display.textContent.length >= 15) return;
+    if (event.target.textContent >= "0" && event.target.textContent <= "9") {
+      display.textContent += event.target.textContent;
+    }
+  });
+});
