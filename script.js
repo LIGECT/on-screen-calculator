@@ -15,6 +15,8 @@ function divide(a, b) {
 }
 
 function operate(operator, a, b) {
+  if (operator === "/" && b === 0) return "Nice try, genius";
+
   switch (operator) {
     case "+":
       return add(a, b);
@@ -49,11 +51,25 @@ buttons.forEach((button) => {
       } else {
         secondNumber += buttonText;
       }
-      display.textContent += buttonText;
-    } else if (/[+\-*/]/.test(buttonText)) {
+      display.textContent =
+        (display.textContent === "0" ? "" : display.textContent) + buttonText;
+    } else if (/\+|\-|\*|\//.test(buttonText)) {
       firstNumber = Number(display.textContent);
       operator = buttonText;
       display.textContent = "";
+      secondNumber = "";
+    } else if (buttonText === "=") {
+      secondNumber = display.textContent;
+
+      let result = operate(operator, firstNumber, Number(secondNumber));
+      if (typeof result === "number") {
+        const resultString = String(result);
+        if (resultString.length > 15) {
+          result = result.toFixed(13);
+        }
+      }
+      display.textContent = String(result);
+      operator = "";
       secondNumber = "";
     }
   });
