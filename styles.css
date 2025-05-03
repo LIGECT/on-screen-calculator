@@ -31,6 +31,7 @@ body {
   margin-bottom: 1.5rem;
   text-align: right;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  min-height: 2.3rem;
 }
 
 .button-grid {

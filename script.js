@@ -34,12 +34,27 @@ function operate(operator, a, b) {
 const display = document.querySelector(".display");
 const buttons = document.querySelectorAll(".btn");
 
+let firstNumber = "";
+let operator = "";
+let secondNumber = "";
+
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
-    event.target.textContent;
+    const buttonText = event.target.textContent;
     if (display.textContent.length >= 15) return;
+
     if (event.target.textContent >= "0" && event.target.textContent <= "9") {
-      display.textContent += event.target.textContent;
+      if (operator === "") {
+        firstNumber += buttonText;
+      } else {
+        secondNumber += buttonText;
+      }
+      display.textContent += buttonText;
+    } else if (/[+\-*/]/.test(buttonText)) {
+      firstNumber = Number(display.textContent);
+      operator = buttonText;
+      display.textContent = "";
+      secondNumber = "";
     }
   });
 });
