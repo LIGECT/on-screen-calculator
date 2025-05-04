@@ -37,11 +37,20 @@ function operate(operator, a, b) {
 
 const display = document.querySelector(".display");
 const buttons = document.querySelectorAll(".btn");
+const clearButton = document.querySelector("#clearAll");
 
 let firstNumber = "";
 let operator = "";
 let secondNumber = "";
 let shouldClearDisplay = false;
+
+clearButton.addEventListener("click", () => {
+  display.textContent = "0";
+  firstNumber = "";
+  operator = "";
+  secondNumber = "";
+  shouldClearDisplay = false;
+});
 
 function formatResult(result) {
   return String(result).length > 15 ? Number(result.toFixed(13)) : result;
@@ -98,6 +107,14 @@ buttons.forEach((button) => {
       secondNumber = display.textContent;
 
       let result = operate(operator, firstNumber, Number(secondNumber));
+      if (typeof result === "string") {
+        display.textContent = result;
+        firstNumber = "";
+        operator = "";
+        secondNumber = "";
+        shouldClearDisplay = true;
+        return;
+      }
       if (typeof result === "number") {
         shouldClearDisplay = true;
         result = formatResult(result);
