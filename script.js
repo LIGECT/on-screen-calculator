@@ -43,6 +43,7 @@ let firstNumber = "";
 let operator = "";
 let secondNumber = "";
 let shouldClearDisplay = false;
+display.textContent = "0";
 
 clearButton.addEventListener("click", () => {
   display.textContent = "0";
@@ -66,7 +67,13 @@ buttons.forEach((button) => {
         display.textContent = buttonText;
         shouldClearDisplay = false;
       } else {
-        display.textContent += buttonText;
+        if (display.textContent === "0") {
+          if (buttonText !== 0) {
+            display.textContent = buttonText;
+          }
+        } else {
+          display.textContent += buttonText;
+        }
       }
 
       if (operator === "") {
