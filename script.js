@@ -15,6 +15,10 @@ function divide(a, b) {
 }
 
 function operate(operator, a, b) {
+  if (!["+", "-", "*", "/"].includes(operator)) {
+    console.error("Неверный оператор: ", operator);
+    return;
+  }
   a = Number(a);
   b = Number(b);
   if (operator === "/" && b === 0) return "Nice try, genius";
@@ -39,12 +43,29 @@ const display = document.querySelector(".display");
 const buttons = document.querySelectorAll(".btn");
 const clearButton = document.querySelector("#clearAll");
 const addDecimal = document.querySelector("#decimal");
+const toggleSign = document.querySelector("#sign-toggle");
 
 let firstNumber = "";
 let operator = "";
 let secondNumber = "";
 let shouldClearDisplay = false;
 display.textContent = "0";
+
+toggleSign.addEventListener("click", () => {
+  let currentValue = parseFloat(display.textContent);
+
+  if (isNaN(currentValue) || currentValue === 0) {
+    return;
+  }
+  currentValue = -currentValue;
+  display.textContent = currentValue;
+
+  if (operator === "") {
+    firstNumber = currentValue;
+  } else {
+    secondNumber = currentValue;
+  }
+});
 
 clearButton.addEventListener("click", () => {
   display.textContent = "0";
@@ -85,6 +106,7 @@ function formatResult(result) {
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     const buttonText = event.target.textContent;
+    if (buttonText === "+/-") return;
     if (display.textContent.length >= 15) return;
 
     if (/^\d$/.test(buttonText)) {
@@ -93,7 +115,7 @@ buttons.forEach((button) => {
         shouldClearDisplay = false;
       } else {
         if (display.textContent === "0") {
-          if (buttonText !== 0) {
+          if (buttonText !== "0") {
             display.textContent = buttonText;
           }
         } else {
