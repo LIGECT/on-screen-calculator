@@ -44,12 +44,29 @@ const buttons = document.querySelectorAll(".btn");
 const clearButton = document.querySelector("#clearAll");
 const addDecimal = document.querySelector("#decimal");
 const toggleSign = document.querySelector("#sign-toggle");
+const handleBackspace = document.querySelector("#backspace-btn");
 
 let firstNumber = "";
 let operator = "";
 let secondNumber = "";
 let shouldClearDisplay = false;
 display.textContent = "0";
+
+handleBackspace.addEventListener("click", () => {
+  if (display.textContent === "0" || display.textContent === "") return;
+
+  let updateText = display.textContent.slice(0, -1);
+
+  if (updateText === "" || updateText === "-") updateText = "0";
+
+  display.textContent = updateText;
+
+  if (operator === "") {
+    firstNumber = updateText;
+  } else {
+    secondNumber = updateText;
+  }
+});
 
 toggleSign.addEventListener("click", () => {
   let currentValue = parseFloat(display.textContent);
