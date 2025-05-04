@@ -38,6 +38,7 @@ function operate(operator, a, b) {
 const display = document.querySelector(".display");
 const buttons = document.querySelectorAll(".btn");
 const clearButton = document.querySelector("#clearAll");
+const addDecimal = document.querySelector("#decimal");
 
 let firstNumber = "";
 let operator = "";
@@ -53,7 +54,31 @@ clearButton.addEventListener("click", () => {
   shouldClearDisplay = false;
 });
 
+addDecimal.addEventListener("click", () => {
+  if (display.textContent.includes(".")) {
+    return;
+  }
+
+  if (!shouldClearDisplay) {
+    if (display.textContent === "0" || display.textContent === "") {
+      display.textContent = "0.";
+    } else {
+      display.textContent += ".";
+    }
+  }
+
+  if (operator === "") {
+    firstNumber += ".";
+  } else {
+    secondNumber += ".";
+  }
+});
+
 function formatResult(result) {
+  if (typeof result !== "number") {
+    return result;
+  }
+
   return String(result).length > 15 ? Number(result.toFixed(13)) : result;
 }
 
