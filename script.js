@@ -45,12 +45,30 @@ const clearButton = document.querySelector("#clearAll");
 const addDecimal = document.querySelector("#decimal");
 const toggleSign = document.querySelector("#sign-toggle");
 const handleBackspace = document.querySelector("#backspace-btn");
+const percentageButton = document.querySelector("#percentage-btn");
 
 let firstNumber = "";
 let operator = "";
 let secondNumber = "";
 let shouldClearDisplay = false;
 display.textContent = "0";
+
+percentageButton.addEventListener("click", () => {
+  let currentValue = parseFloat(display.textContent);
+
+  if (isNaN(currentValue) || !isFinite(currentValue) || currentValue === 0)
+    return;
+
+  let percentageValue = currentValue / 100;
+
+  display.textContent = percentageValue;
+
+  if (operator === "") {
+    firstNumber = percentageValue;
+  } else {
+    secondNumber = percentageValue;
+  }
+});
 
 handleBackspace.addEventListener("click", () => {
   if (display.textContent === "0" || display.textContent === "") return;
