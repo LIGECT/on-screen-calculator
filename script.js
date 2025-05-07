@@ -55,11 +55,15 @@ display.textContent = "0";
 
 percentageButton.addEventListener("click", () => {
   let currentValue = parseFloat(display.textContent);
+  let base = operator === "" ? currentValue : firstNumber;
+  let percentOf = parseFloat(base);
 
   if (isNaN(currentValue) || !isFinite(currentValue) || currentValue === 0)
     return;
 
-  let percentageValue = currentValue / 100;
+  if (isNaN(percentOf) || !isFinite(percentOf)) return;
+
+  let percentageValue = (percentOf * currentValue) / 100;
 
   display.textContent = percentageValue;
 
@@ -142,7 +146,7 @@ buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     const buttonText = event.target.textContent;
     if (buttonText === "+/-") return;
-    if (display.textContent.length >= 15) return;
+    if (display.textContent.length >= 14) return;
 
     if (/^\d$/.test(buttonText)) {
       if (shouldClearDisplay === true) {
