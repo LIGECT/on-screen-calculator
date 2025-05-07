@@ -168,7 +168,18 @@ buttons.forEach((button) => {
         secondNumber += buttonText;
       }
     } else if (/\+|\-|\*|\//.test(buttonText)) {
-      if (operator !== "" && display.textContent !== "") {
+      const currentOperator = buttonText;
+
+      if (operator !== "" && secondNumber === "") {
+        operator = currentOperator;
+      } else if (operator !== "" && display.textContent === "") {
+        operator = currentOperator;
+      } else if (operator === "" && display.textContent !== "") {
+        firstNumber = Number(display.textContent);
+        operator = currentOperator;
+        shouldClearDisplay = true;
+        secondNumber = "";
+      } else if (operator !== "" && display.textContent !== "") {
         const currentSecondNumber = Number(display.textContent);
         let intermediateResult = operate(
           operator,
@@ -188,14 +199,13 @@ buttons.forEach((button) => {
         if (typeof intermediateResult === "number") {
           intermediateResult = formatResult(intermediateResult);
         }
+
         firstNumber = intermediateResult;
         display.textContent = intermediateResult;
+        operator = currentOperator;
+        shouldClearDisplay = true;
         secondNumber = "";
       }
-
-      operator = buttonText;
-      shouldClearDisplay = true;
-      secondNumber = "";
     } else if (buttonText === "=") {
       secondNumber = display.textContent;
 
