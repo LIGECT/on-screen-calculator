@@ -139,11 +139,17 @@ addDecimal.addEventListener("click", () => {
 });
 
 function formatResult(result) {
-  if (typeof result !== "number") {
-    return result;
+  if (typeof result !== "number") return result;
+
+  let rounded = parseFloat(result.toFixed(10));
+
+  let resultStr = rounded.toString();
+
+  if (resultStr.length > 15) {
+    resultStr = rounded.toExponential(8);
   }
 
-  return String(result).length > 15 ? Number(result.toFixed(13)) : result;
+  return resultStr;
 }
 
 buttons.forEach((button) => {
