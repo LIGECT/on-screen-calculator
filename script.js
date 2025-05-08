@@ -115,22 +115,26 @@ clearButton.addEventListener("click", () => {
 });
 
 addDecimal.addEventListener("click", () => {
-  if (display.textContent.includes(".")) {
+  if (shouldClearDisplay) {
+    display.textContent = "0.";
+    shouldClearDisplay = false;
+
+    if (operator === "") {
+      firstNumber = "0.";
+    } else {
+      secondNumber = "0.";
+    }
     return;
   }
 
-  if (!shouldClearDisplay) {
-    if (display.textContent === "0" || display.textContent === "") {
-      display.textContent = "0.";
-    } else {
-      display.textContent += ".";
-    }
-  }
+  if (display.textContent.includes(".")) return;
+
+  display.textContent += ".";
 
   if (operator === "") {
-    firstNumber += ".";
+    firstNumber = "0.";
   } else {
-    secondNumber += ".";
+    secondNumber = "0.";
   }
 });
 
