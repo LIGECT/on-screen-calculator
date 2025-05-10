@@ -135,15 +135,16 @@ addDecimal.addEventListener("click", () => {
   display.textContent += ".";
 
   if (operator === "") {
-    firstNumber = "0.";
+    firstNumber = ".";
   } else {
-    secondNumber = "0.";
+    secondNumber = ".";
   }
   clearHighlight();
 });
 
 function formatResult(result) {
   if (typeof result !== "number") return result;
+  if (!isFinite(result)) return "Overflow";
 
   let rounded = parseFloat(result.toFixed(10));
 
@@ -250,6 +251,7 @@ buttons.forEach((button) => {
       if (operator === "" || firstNumber === "" || display.textContent === "") {
         return;
       }
+      highlightButton(event.currentTarget);
 
       secondNumber = display.textContent;
 
