@@ -247,6 +247,10 @@ buttons.forEach((button) => {
         secondNumber = "";
       }
     } else if (buttonText === "=") {
+      if (operator === "" || firstNumber === "" || display.textContent === "") {
+        return;
+      }
+
       secondNumber = display.textContent;
 
       let result = operate(operator, firstNumber, Number(secondNumber));
