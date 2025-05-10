@@ -1,6 +1,3 @@
-Here's a properly formatted `README.md` file following standard GitHub conventions:
-
-````markdown
 # Calculator
 
 ![Calculator Preview](./screenshots/calculator.png)
@@ -30,10 +27,10 @@ A modern, responsive calculator web application with keyboard support and intuit
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/your-username/calculator.git
    ```
-````
 
 2. Open `index.html` in your browser
 
