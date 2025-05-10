@@ -45,12 +45,12 @@ body {
 .btn {
   width: 60px;
   height: 60px;
-  background-color: #ffffff;
+  background-color: #f9f9f9;
   border: none;
   padding: 1rem;
   border-radius: 12px;
   font-size: 1.3rem;
-  color: #333;
+  color: #000;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -66,11 +66,52 @@ body {
 }
 
 .btn:active {
+  background-color: #c3e6af;
   transform: scale(0.9);
   box-shadow: inherit 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: none;
 }
 
 .btn.accent {
   background-color: #d1f5c0;
   color: #1a1a1a;
+}
+
+.active-operator {
+  background-color: #d1f5c0;
+  color: #1a1a1a;
+  box-shadow: 0 0 8px #d1f5c0;
+  border: 2px solid #86c88f;
+}
+
+.btn.equals {
+  background-color: #86c88f;
+  color: #fff;
+}
+
+.btn.equals:hover {
+  background-color: #74b57e;
+}
+
+.btn.clear {
+  background-color: #d1f5c0;
+  color: #226;
+}
+
+.btn.clear:hover {
+  background-color: #d1f5e1;
+}
+
+.btn.del {
+  background-color: #d1f5c0;
+  color: #226;
+}
+
+.btn.del:hover {
+  background-color: #d1f5e1;
+}
+
+.btn.flash {
+  background-color: #a0a0a0;
+  transition: background-color 0.1s ease-out;
 }

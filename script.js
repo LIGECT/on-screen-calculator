@@ -52,6 +52,7 @@ let operator = "";
 let secondNumber = "";
 let shouldClearDisplay = false;
 display.textContent = "0";
+let activeOperatorButton = null;
 
 percentageButton.addEventListener("click", () => {
   let currentValue = parseFloat(display.textContent);
@@ -112,6 +113,7 @@ clearButton.addEventListener("click", () => {
   operator = "";
   secondNumber = "";
   shouldClearDisplay = false;
+  clearHighlight();
 });
 
 addDecimal.addEventListener("click", () => {
@@ -124,6 +126,7 @@ addDecimal.addEventListener("click", () => {
     } else {
       secondNumber = "0.";
     }
+    clearHighlight();
     return;
   }
 
@@ -136,6 +139,7 @@ addDecimal.addEventListener("click", () => {
   } else {
     secondNumber = "0.";
   }
+  clearHighlight();
 });
 
 function formatResult(result) {
@@ -152,13 +156,35 @@ function formatResult(result) {
   return resultStr;
 }
 
+function highlightButton(button) {
+  if (activeOperatorButton) {
+    activeOperatorButton.classList.remove("active-operator");
+  }
+  button.classList.add("active-operator");
+  activeOperatorButton = button;
+}
+
+function clearHighlight() {
+  if (activeOperatorButton) {
+    activeOperatorButton.classList.remove("active-operator");
+    activeOperatorButton = null;
+  }
+}
+
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
+    const clickedButton = event.target;
+    clickedButton.classList.add("flash");
+
+    setTimeout(() => {
+      clickedButton.classList.remove("flash");
+    }, 150);
     const buttonText = event.target.textContent;
     if (buttonText === "+/-") return;
     if (display.textContent.length >= 14) return;
 
     if (/^\d$/.test(buttonText)) {
+      clearHighlight();
       if (shouldClearDisplay === true) {
         display.textContent = buttonText;
         shouldClearDisplay = false;
@@ -179,6 +205,8 @@ buttons.forEach((button) => {
       }
     } else if (/\+|\-|\*|\//.test(buttonText)) {
       const currentOperator = buttonText;
+
+      highlightButton(event.currentTarget);
 
       if (operator !== "" && secondNumber === "") {
         operator = currentOperator;
@@ -203,6 +231,8 @@ buttons.forEach((button) => {
           secondNumber = "";
           operator = "";
           shouldClearDisplay = true;
+
+          clearHighlight();
           return;
         }
 
@@ -226,6 +256,7 @@ buttons.forEach((button) => {
         operator = "";
         secondNumber = "";
         shouldClearDisplay = true;
+        clearHighlight();
         return;
       }
       if (typeof result === "number") {
@@ -236,6 +267,7 @@ buttons.forEach((button) => {
       firstNumber = result;
       operator = "";
       secondNumber = "";
+      clearHighlight();
     }
   });
 });
