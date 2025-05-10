@@ -41,7 +41,7 @@ function operate(operator, a, b) {
 
 const display = document.querySelector(".display");
 const buttons = document.querySelectorAll(".btn");
-const clearButton = document.querySelector("#clearAll");
+const clearButton = document.querySelector("#clear-all");
 const addDecimal = document.querySelector("#decimal");
 const toggleSign = document.querySelector("#sign-toggle");
 const handleBackspace = document.querySelector("#backspace-btn");
@@ -274,4 +274,81 @@ buttons.forEach((button) => {
       clearHighlight();
     }
   });
+});
+
+window.addEventListener("keydown", (event) => {
+  const key = event.key;
+  console.log(key);
+
+  let targetButtonText = null;
+  let targetButtonID = null;
+
+  switch (key) {
+    case "0":
+    case "1":
+    case "2":
+    case "3":
+    case "4":
+    case "5":
+    case "6":
+    case "7":
+    case "8":
+    case "9":
+      targetButtonText = key;
+      break;
+
+    case "+":
+    case "-":
+    case "*":
+    case "/":
+      targetButtonText = key;
+      break;
+
+    case ".":
+      targetButtonText = key;
+      break;
+
+    case "=":
+    case "Enter":
+      targetButtonText = "=";
+      break;
+
+    case "Backspace":
+      targetButtonID = "backspace-btn";
+      break;
+
+    case "Escape":
+      targetButtonID = "clear-all";
+      break;
+
+    case "p":
+      targetButtonID = "percentage-btn";
+      break;
+
+    case "t":
+      targetButtonID = "sign-toggle";
+      break;
+
+    default:
+      return;
+  }
+
+  let targetButtonElement = null;
+
+  if (targetButtonText) {
+    targetButtonElement = [...document.querySelectorAll("button")].find(
+      (btn) => btn.textContent === targetButtonText
+    );
+  } else if (targetButtonID) {
+    targetButtonElement = document.getElementById(targetButtonID);
+  }
+
+  if (targetButtonElement) {
+    targetButtonElement.classList.add("active-operator");
+    setTimeout(
+      () => targetButtonElement.classList.remove("active-operator"),
+      150
+    );
+    targetButtonElement.click();
+  }
 });
