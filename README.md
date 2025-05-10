@@ -93,5 +93,4 @@ The formatting uses proper Markdown syntax for:
 - Lists
 - Image embedding
 
-You can copy this directly into your `README.md` file.
 ```
